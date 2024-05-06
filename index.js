@@ -13,17 +13,17 @@ const initialDistance = 0; // initial distance (km)
 const initialFuel = 5000; // initial fuel amount (kg)
 const fuelBurnRate = 0.5; // fuel burn rate (kg/s)
 
-const newDistance = initialDistance + initialVelocity * timeInSeconds; // calculates new distance
-const remainingFuel = fuelBurnRate * timeInSeconds; // calculates remaining fuel
+const newDistance = initialDistance + (initialVelocity * timeInSeconds) / 3600; // calculates new distance in km
+const remainingFuel = initialFuel - fuelBurnRate * timeInSeconds; // calculates remaining fuel in kg
 const newVelocity = calcNewVelocity(
   acceleration,
   initialVelocity,
   timeInSeconds
-); // calculates new speed based on acceleration
+); // Calculate new velocity in kilometers per hour (km/h)
 
-// Pick up an error with how the function below is called and make it robust to such errors
+// Function to calculate new velocity based on acceleration, initial velocity, and time in seconds
 function calcNewVelocity(acceleration, initialVelocity, timeInSeconds) {
-  return initialVelocity + acceleration * timeInSeconds;
+  return initialVelocity + acceleration * timeInSeconds * 3.6; // Multiply acceleration by time in seconds and then by 3.6 to convert from m/s to km/h
 }
 
 console.log(`Corrected New Velocity: ${newVelocity} km/h`);
