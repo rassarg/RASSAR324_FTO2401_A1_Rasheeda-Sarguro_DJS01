@@ -13,19 +13,41 @@ const initialDistance = 0; // initial distance (km)
 const initialFuel = 5000; // initial fuel amount (kg)
 const fuelBurnRate = 0.5; // fuel burn rate (kg/s)
 
-const newDistance = initialDistance + (initialVelocity * timeInSeconds) / 3600; // calculates new distance in km
-const remainingFuel = initialFuel - fuelBurnRate * timeInSeconds; // calculates remaining fuel in kg
-const newVelocity = calcNewVelocity(
-  acceleration,
-  initialVelocity,
-  timeInSeconds
-); // Calculate new velocity in kilometers per hour (km/h)
+// Validate units and handle errors
+if (
+  isNaN(initialVelocity) ||
+  isNaN(acceleration) ||
+  isNaN(timeInSeconds) ||
+  isNaN(initialDistance) ||
+  isNaN(initialFuel) ||
+  isNaN(fuelBurnRate)
+) {
+  console.error("Error: Invalid input types. All inputs must be numbers.");
+} else if (
+  initialVelocity < 0 ||
+  acceleration < 0 ||
+  timeInSeconds < 0 ||
+  initialFuel < 0 ||
+  initialDistance < 0 ||
+  fuelBurnRate < 0
+) {
+  console.error("Error: Please add a number greater than 0");
+} else {
+  const newDistance =
+    initialDistance + (initialVelocity * timeInSeconds) / 3600; // calculates new distance in km
+  const remainingFuel = initialFuel - fuelBurnRate * timeInSeconds; // calculates remaining fuel in kg
+  const newVelocity = calcNewVelocity(
+    acceleration,
+    initialVelocity,
+    timeInSeconds
+  ); // Calculate new velocity in kilometers per hour (km/h)
 
-// Function to calculate new velocity based on acceleration, initial velocity, and time in seconds
-function calcNewVelocity(acceleration, initialVelocity, timeInSeconds) {
-  return initialVelocity + acceleration * timeInSeconds * 3.6; // Multiply acceleration by time in seconds and then by 3.6 to convert from m/s to km/h
+  // Function to calculate new velocity based on acceleration, initial velocity, and time in seconds
+  function calcNewVelocity(acceleration, initialVelocity, timeInSeconds) {
+    return initialVelocity + acceleration * timeInSeconds * 3.6; // Multiply acceleration by time in seconds and then by 3.6 to convert from m/s to km/h
+  }
+
+  console.log(`Corrected New Velocity: ${newVelocity} km/h`);
+  console.log(`Corrected New Distance: ${newDistance} km`);
+  console.log(`Corrected Remaining Fuel: ${remainingFuel} kg`);
 }
-
-console.log(`Corrected New Velocity: ${newVelocity} km/h`);
-console.log(`Corrected New Distance: ${newDistance} km`);
-console.log(`Corrected Remaining Fuel: ${remainingFuel} kg`);
